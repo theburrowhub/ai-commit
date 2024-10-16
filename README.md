@@ -98,13 +98,21 @@ The Makefile provides the following targets to manage building, installing, and 
   ```sh
   make git-add-extension
   ```
+- `release`: Make a release using goreleaser.
+  ```sh
+  make release
+  ```
+- `test-release`: Make a test release using goreleaser.
+  ```sh
+  make test-release
+  ```
 - `clean`: Removes the `./bin` directory to clean up build artifacts.
   ```sh
   make clean
   ```
 
 ## License
-[MIT](LICENSE)
+[MIT](LICENSE.txt)
 
 ## Contributing
 Feel free to submit pull requests or open issues to improve this project.
