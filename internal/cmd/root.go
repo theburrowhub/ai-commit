@@ -100,10 +100,10 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.PersistentFlags().BoolVar(&noop, "noop", false, "Run without making any changes")
-	rootCmd.PersistentFlags().StringVar(&logLevel, "logLevel", "info", "Set the logging level (debug, info, warn, error)")
+	rootCmd.PersistentFlags().StringVarP(&logLevel, "logLevel", "l", "info", "Set the logging level (debug, info, warn, error)")
 	rootCmd.PersistentFlags().StringVar(&ollamaServer, "server", "http://localhost:11434", "Set the Ollama server URL")
 	rootCmd.PersistentFlags().StringVar(&model, "model", "mistral", "Set the model to use for AI generation")
-	rootCmd.PersistentFlags().BoolVar(&showVersion, "version", false, "Show the version of the application")
+	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show the version of the application")
 }
 
 func Execute() {
