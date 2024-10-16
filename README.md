@@ -14,6 +14,14 @@ ai-commit is a command-line tool designed to help developers automatically gener
 - AI model server running at specified URL (Ollama server).
 
 ## Installation
+
+Run the following command to install the `ai-commit` binary and git extension:
+
+```sh
+curl -s https://raw.githubusercontent.com/sergiotejon/ai-commit/main/scripts/get-ai-commit.sh | sudo bash
+```
+
+### Clone and Build
 Clone this repository and build the `ai-commit` binary:
 
 ```sh
