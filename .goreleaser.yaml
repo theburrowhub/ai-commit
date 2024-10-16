@@ -9,7 +9,7 @@ builds:
     binary: ai-commit
     main: ./cmd/
     ldflags:
-      - "-X github.com/sergiotejon/ai-commit/internal/pkg/version.version={{.Version}}"
+      - "-X github.com/sergiotejon/ai-commit/internal/version.version={{.Version}}"
     env:
       - CGO_ENABLED=0
     goos:
