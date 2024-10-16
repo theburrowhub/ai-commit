@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/sergiotejon/ai-commit/internal/version"
 	"log/slog"
 	"os"
 	"strings"
@@ -38,12 +39,18 @@ var (
 	logLevel     string
 	ollamaServer string
 	model        string
+	showVersion  bool
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "ai-commit",
 	Short: "ai-commit is a tool to commit changes to a Git repository using AI for the commit message",
 	Run: func(cmd *cobra.Command, args []string) {
+		if showVersion {
+			fmt.Println("ai-commit version:", version.GetVersion())
+			os.Exit(0)
+		}
+
 		diff, err := git.GetDiffs()
 		if err != nil {
 			panic(err)
@@ -96,6 +103,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&logLevel, "logLevel", "info", "Set the logging level (debug, info, warn, error)")
 	rootCmd.PersistentFlags().StringVar(&ollamaServer, "server", "http://localhost:11434", "Set the Ollama server URL")
 	rootCmd.PersistentFlags().StringVar(&model, "model", "mistral", "Set the model to use for AI generation")
+	rootCmd.PersistentFlags().BoolVar(&showVersion, "version", false, "Show the version of the application")
 }
 
 func Execute() {
