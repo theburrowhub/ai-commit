@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/utils/diff"
@@ -15,8 +16,14 @@ type FileDiff struct {
 	Text string
 }
 
+// GetDiffs returns the differences between the files in the index and the last commit.
 func GetDiffs() (string, error) {
-	repo, err := git.PlainOpen(".")
+	gitDir, err := findGitDir()
+	if err != nil {
+		return "", fmt.Errorf("could not find the .git directory: %w", err)
+	}
+
+	repo, err := git.PlainOpen(gitDir)
 	if err != nil {
 		return "", fmt.Errorf("could not open the repository: %w", err)
 	}
@@ -61,7 +68,7 @@ func GetDiffs() (string, error) {
 				return "", fmt.Errorf("could not close the file %s: %w", file, err)
 			}
 
-			idxContent, err := os.ReadFile(file)
+			idxContent, err := os.ReadFile(filepath.Join(gitDir, file))
 			if err != nil {
 				return "", fmt.Errorf("could not read the file %s: %w", file, err)
 			}
@@ -108,4 +115,35 @@ func GetDiffs() (string, error) {
 	}
 
 	return string(diffsJSON), nil
+}
+
+// findGitDir looks for the .git directory in the current directory or any of its parents.
+func findGitDir() (string, error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		return "", fmt.Errorf("could not get the current directory: %w", err)
+	}
+
+	for {
+		gitPath := filepath.Join(dir, ".git")
+		if _, err := os.Stat(gitPath); err == nil {
+			pwd, err := os.Getwd()
+			if err != nil {
+				return "", fmt.Errorf("could not get the current directory: %w", err)
+			}
+			relPath, err := filepath.Rel(pwd, dir)
+			if err != nil {
+				return "", fmt.Errorf("could not get the relative path: %w", err)
+			}
+			return relPath, nil
+		}
+
+		parentDir := filepath.Dir(dir)
+		if parentDir == dir {
+			break
+		}
+		dir = parentDir
+	}
+
+	return "", fmt.Errorf("the .git directory was not found")
 }
