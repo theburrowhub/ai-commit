@@ -22,4 +22,5 @@
 
 ## CI/CD
 
-- [ ] Add CI/CD pipeline to automate new releases 
+- [ ] Add CI/CD pipeline to automate new releases
+- [ ] Docker image for easy installation
