@@ -27,6 +27,6 @@ jobs:
           distribution: goreleaser
           workdir: .
           install-only: false
-          args: release --rm-dist
+          args: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
