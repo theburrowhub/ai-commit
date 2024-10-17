@@ -28,7 +28,7 @@ func printCommitMessage(message string) {
 	fmt.Printf("\nCommit message:\n\n%s\n\n", message)
 }
 
-// promptTemplate generates a prompt template using the diff.
+// generatePrompt generates a prompt template using the diff.
 func generatePrompt(promptTemplate, diff string) (string, error) {
 	var tmpl, err = template.New("prompt").Parse(promptTemplate)
 	if err != nil {
