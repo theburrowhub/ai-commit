@@ -2,10 +2,10 @@
 
 ## Features
 
-- [ ] Configuration file for:
-  - [ ] AI model server URL
-  - [ ] Logging level
-  - [ ] Default AI model
+- [X] Configuration file for:
+  - [X] AI model server URL
+  - [X] Logging level
+  - [X] Default AI model
 
 ## Improvements
 
