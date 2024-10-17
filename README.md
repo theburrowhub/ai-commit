@@ -9,9 +9,8 @@ ai-commit is a command-line tool designed to help developers automatically gener
 - Option to run in "noop" mode to see the generated commit message without making changes.
 
 ## Requirements
-- [Go](https://golang.org/) installed.
-- [Cobra](https://github.com/spf13/cobra) library for the CLI.
 - AI model server running at specified URL (Ollama server).
+- Git installed and configured on the system.
 
 ## Installation
 
@@ -37,10 +36,16 @@ The `ai-commit` command will use AI to generate a commit message based on the cu
 ```sh
 ai-commit
 ```
-This command will:
+or
+```sh
+git ai-commit
+```
+
+These commands will:
 - Gather the current diffs in your working directory.
 - Send the diffs to the configured AI model to generate a commit message.
 - Commit the changes with the generated message.
+- Open your default editor to allow you to modify the commit message before finalizing the commit.
 
 ### Command-Line Flags
 - `--noop`: Run without making any changes to the Git repository (dry-run mode).
@@ -55,13 +60,6 @@ ai-commit --noop --logLevel debug
 This will run the command in noop mode, providing detailed logs about the process without actually committing anything.
 
 ## Commit Message Generation
-The AI model uses the following prompt to generate commit messages:
-
-```
-In an impersonal way, write a commit message that explains what you did and why you did it.
-Use conventional commits and the imperative mood in the first line.
-The first line should start with: feat, fix, refactor, docs, style, build, perf, ci, style, test, or chore.
-```
 
 The generated commit message will adhere to the following format:
 - A concise subject line following the conventional commit format.
@@ -76,8 +74,13 @@ The generated commit message will adhere to the following format:
 To execute the command during development:
 
 ```sh
-go run ./cmd/ai-commit
+go run ./cmd/main.go
 ```
+
+### Requirements
+- [Go](https://golang.org/) installed.
+- [Cobra](https://github.com/spf13/cobra) library for the CLI.
+- [go-git](https://github.com/go-git/go-git) library for interacting with Git repositories.
 
 ### Makefile Targets
 The Makefile provides the following targets to manage building, installing, and cleaning up:
