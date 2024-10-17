@@ -9,7 +9,11 @@ ai-commit is a command-line tool designed to help developers automatically gener
 - Option to run in "noop" mode to see the generated commit message without making changes.
 
 ## Requirements
-- AI model server running at specified URL (Ollama server).
+- AI model server running at specified URL ([Ollama](https://ollama.com) server).
+- A AI Model to generate commit messages. By default, it uses the "mistral" model.
+  ```sh
+  ollama pull mistral
+  ```
 - Git installed and configured on the system.
 
 ## Installation
