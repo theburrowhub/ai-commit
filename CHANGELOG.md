@@ -1,3 +1,9 @@
+## 0.2.2 (2024-10-17)
+
+### Refactor
+
+- **.github/workflows/release.yaml**: Update GoReleaser workflow
+
 ## 0.2.1 (2024-10-17)
 
 ### Fix
