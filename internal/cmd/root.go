@@ -23,15 +23,15 @@ const (
 		"Set the file name and the changes made in the body. " +
 		"Only one subject line is allowed. " +
 		"An example of commit message is: " +
-		"```" +
-		"feat(file or class): Add user authentication" +
 		"" +
-		"- Implement user sign-up and login functionality" +
-		"- Add password hashing for security" +
-		"- Integrate with authentication API" +
-		"- ..." +
-		"```" +
-		"Keep new lines and indentation to make the message more readable. "
+		"feat(file or class): Add user authentication\\n" +
+		"\\n" +
+		"- Implement user sign-up and login functionality\\n" +
+		"- Add password hashing for security\\n" +
+		"- Integrate with authentication API\\n" +
+		"- ...\\n" +
+		"" +
+		"Add line breaks to separate subject from body."
 )
 
 var (
