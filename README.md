@@ -63,6 +63,43 @@ ai-commit --noop --logLevel debug
 ```
 This will run the command in noop mode, providing detailed logs about the process without actually committing anything.
 
+### Configuration
+
+The configuration file `$(HOME)/.config/ai-commit/config.yaml` is automatically generated if it does not exist. This 
+file contains the default values for the `ai-commit` configuration. Below is an example of the content of this file with 
+the default values:
+
+```yaml
+logLevel: info
+ollamaServer: http://localhost:11434
+model: mistral
+defaultPromptTemplate: |-
+    Commit changes:
+    {{ .Diff }}
+
+    In an impersonal way, write a commit message that explains what the commit is for. Use conventional commits
+    and the imperative mood in the first line. The first line should start with: feat, fix, refactor, docs, style,
+    build, perf, ci, style, test or chore. Set the file name and the changes made in the body. Only one subject
+    line is allowed. An example of commit message is:
+
+    feat(file or class): Add user authentication
+
+    - Implement user sign-up and login functionality
+    - Add password hashing for security
+    - Integrate with authentication API
+
+    Add line breaks to separate subject from body.
+defaultRetriesCommitMessage: 3
+```
+
+This file defines the following configuration parameters:
+
+* `logLevel`: Logging level (default is "info").
+* `ollamaServer`: URL of the Ollama server (default is http://localhost:11434).
+* `model`: AI model to use for generating commit messages (default is "mistral").
+* `defaultPromptTemplate`: Default template for the commit message.
+* `defaultRetriesCommitMessage`: Number of retries for invalid commit messages (default is 3).
+ 
 ## Commit Message Generation
 
 The generated commit message will adhere to the following format:
