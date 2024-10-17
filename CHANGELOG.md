@@ -1,3 +1,9 @@
+## 0.2.1 (2024-10-17)
+
+### Fix
+
+- **.github/workflows/release.yaml**: add GoReleaser execution
+
 ## 0.2.0 (2024-10-17)
 
 ### Feat
