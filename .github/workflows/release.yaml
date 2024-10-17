@@ -4,7 +4,7 @@ name: Crear Release con GoReleaser
 on:
   push:
     tags:
-      - 'v*.*.*'  # Simple semantic version v1.2.3
+      - '*.*.*'  # Simple semantic version v1.2.3
 
 jobs:
   release:
