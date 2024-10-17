@@ -1,7 +1,11 @@
 .PHONY: build
 
+CURRENT_VERSION := $(shell git describe --tags --abbrev=0)
+
 build:
-	go build -o ./bin/ai-commit ./cmd/main.go
+	go build \
+		-ldflags "-X github.com/sergiotejon/ai-commit/internal/version.version=${CURRENT_VERSION}" \
+		-o ./bin/ai-commit ./cmd/main.go
 
 install: build
 	cp ./bin/ai-commit /usr/local/bin/ai-commit
