@@ -9,16 +9,16 @@
 
 ## Improvements
 
-- [ ] Improve logging output
-- [ ] Improve AI prompt for better commit messages
-- [ ] Check commit messages if they adhere to conventional commit standards
-  - [ ] Retry if not adhering to standards (e.g., feat, fix, refactor)
-  - [ ] ... at least 3 times
+- [X] Improve logging output
+- [X] Improve AI prompt for better commit messages
+- [X] Check commit messages if they adhere to conventional commit standards
+  - [X] Retry if not adhering to standards (e.g., feat, fix, refactor)
+  - [X] ... at least 3 times
 - [ ] Tests
 
 ## Bug Fixes
 
-- [ ] Some commit messages are not being generated correctly 
+- [X] Some commit messages are not being generated correctly 
 
 ## CI/CD
 
