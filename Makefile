@@ -18,6 +18,9 @@ test-release:
 git-add-extension: install
 	ln -s /usr/local/bin/ai-commit /usr/local/bin/git-ai-commit
 
+new-version:
+	cz bump
+
 clean:
 	rm -rf ./bin
 	rm -rf ./dist
