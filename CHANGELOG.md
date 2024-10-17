@@ -1,3 +1,19 @@
+## 0.4.0 (2024-10-17)
+
+### Feat
+
+- **internal/configure/configure.go**: Initialize new configure file
+- **internal/configure/literalstring.go**: Introduce new file for literal string
+- **internal/cmd/functions.go**: Implement conventional commits ...
+
+### Fix
+
+- **go.mod**: Update dependencies
+
+### Refactor
+
+- **internal/cmd/root.go**: Integrate configuration loading into ...
+
 ## 0.3.0 (2024-10-17)
 
 ## 0.2.2 (2024-10-17)
