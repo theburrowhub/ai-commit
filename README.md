@@ -113,10 +113,35 @@ The Makefile provides the following targets to manage building, installing, and 
   ```sh
   make test-release
   ```
+- `new-version`: Bump the version of the project.
+  ```sh
+  make new-version
+  ```
 - `clean`: Removes the `./bin` directory to clean up build artifacts.
   ```sh
   make clean
   ```
+
+## Automatic Versioning
+
+Just push a new tag with the version number and the CI/CD pipeline will take care of the rest.
+
+Automatically bump the version with:
+```sh
+make new-version
+```
+
+If you want to manually bump the version:
+
+```sh
+cz bump --increment [MAJOR|MINOR|PATCH]
+```
+
+Then push the tag to the repository:
+
+```sh
+git push --tags
+```
 
 ## License
 [MIT](LICENSE.txt)
