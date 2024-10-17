@@ -16,12 +16,13 @@ import (
 
 // TODO: configure
 const (
-	prompt = "In an impersonal way, write a commit message that explains what you did and why you did it. " +
+	prompt = "" +
+		"In an impersonal way, write a commit message that explains what the commit is for. " +
 		"Use conventional commits and the imperative mood in the first line. " +
-		"The first line should start with: feat, fix, refactor, docs, style, build, perf, ci, style, test, or chore. " +
+		"The first line should start with: feat, fix, refactor, docs, style, build, perf, ci, style, test or chore. " +
 		"Set the file name and the changes made in the body. " +
-		"Only one subject line is allowed." +
-		"An example of commit message is:" +
+		"Only one subject line is allowed. " +
+		"An example of commit message is: " +
 		"```" +
 		"feat(file or class): Add user authentication" +
 		"" +
@@ -30,8 +31,7 @@ const (
 		"- Integrate with authentication API" +
 		"- ..." +
 		"```" +
-		"Keep new lines and indentation to make the message more readable. " +
-		"The changes of only one commit are:"
+		"Keep new lines and indentation to make the message more readable. "
 )
 
 var (
@@ -67,7 +67,7 @@ var rootCmd = &cobra.Command{
 
 		slog.Info("Querying Ollama...")
 		slog.Info("Parameters", "server", ollamaServer, "model", model)
-		result, err := ai.QueryOllama(fmt.Sprintf("%s\n%s", prompt, diff), ollamaServer, model)
+		result, err := ai.QueryOllama(fmt.Sprintf("Commit changes:\n%s\n%s", diff, prompt), ollamaServer, model)
 		if err != nil {
 			panic(err)
 		}
