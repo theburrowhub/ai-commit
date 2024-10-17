@@ -7,32 +7,10 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/sergiotejon/ai-commit/internal/configure"
 	"github.com/sergiotejon/ai-commit/internal/git"
 	"github.com/sergiotejon/ai-commit/internal/logger"
 	"github.com/sergiotejon/ai-commit/internal/version"
-)
-
-// TODO: configure
-const (
-	retriesCommitMessage = 3
-
-	promptTemplate = `
-        Commit changes:
-		{{ .Diff }}
-
-		In an impersonal way, write a commit message that explains what the commit is for. Use conventional commits
-        and the imperative mood in the first line. The first line should start with: feat, fix, refactor, docs, style,
-        build, perf, ci, style, test or chore. Set the file name and the changes made in the body. Only one subject
-		line is allowed. An example of commit message is:
-
-		feat(file or class): Add user authentication
-
-		- Implement user sign-up and login functionality
-		- Add password hashing for security
-		- Integrate with authentication API
-
-		Add line breaks to separate subject from body.
-    `
 )
 
 var (
@@ -40,6 +18,7 @@ var (
 	logLevel     string
 	ollamaServer string
 	model        string
+	retries      int
 	showVersion  bool
 )
 
@@ -54,8 +33,6 @@ var rootCmd = &cobra.Command{
 
 		// Setup the logger
 		logger.SetupLogger(logLevel)
-		// Load configuration
-		// ...
 
 		// Get the differences in the repository
 		diff, err := git.GetDiffs()
@@ -70,7 +47,7 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Return prompt to infer
-		prompt, err := generatePrompt(promptTemplate, diff)
+		prompt, err := generatePrompt(string(configure.Cfg.DefaultPromptTemplate), diff)
 		if err != nil {
 			panic(err)
 		}
@@ -81,7 +58,7 @@ var rootCmd = &cobra.Command{
 		slog.Info("Parameters", "server", ollamaServer, "model", model)
 
 		// Generate the commit message using Ollama from the prompt with the differences
-		commitMessage, err := generateCommitMessage(prompt, ollamaServer, model, retriesCommitMessage)
+		commitMessage, err := generateCommitMessage(prompt, ollamaServer, model, retries)
 		if err != nil {
 			panic(err)
 		}
@@ -108,10 +85,16 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolVar(&noop, "noop", false, "Run without making any changes")
-	rootCmd.PersistentFlags().StringVarP(&logLevel, "logLevel", "l", "info", "Set the logging level (debug, info, warn, error)")
-	rootCmd.PersistentFlags().StringVar(&ollamaServer, "server", "http://localhost:11434", "Set the Ollama server URL")
-	rootCmd.PersistentFlags().StringVar(&model, "model", "mistral", "Set the model to use for AI generation")
+	err := configure.LoadConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	rootCmd.PersistentFlags().BoolVar(&noop, "noop", configure.Cfg.Noop, "Run without making any changes")
+	rootCmd.PersistentFlags().StringVarP(&logLevel, "logLevel", "l", configure.Cfg.LogLevel, "Set the logging level (debug, info, warn, error)")
+	rootCmd.PersistentFlags().StringVar(&ollamaServer, "server", configure.Cfg.OllamaServer, "Set the Ollama server URL")
+	rootCmd.PersistentFlags().StringVar(&model, "model", configure.Cfg.Model, "Set the model to use for AI generation")
+	rootCmd.PersistentFlags().IntVarP(&retries, "retries", "r", configure.Cfg.DefaultRetriesCommitMessage, "Set the number of retries for invalid commit messages")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show the version of the application")
 }
 
