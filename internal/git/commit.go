@@ -8,13 +8,13 @@ import (
 
 // Commit makes a new commit with the provided message
 func Commit(message string) error {
-	cmd := exec.Command("git", "commit", "-m", message)
+	cmd := exec.Command("git", "commit", "-m", fmt.Sprintf("%s", message))
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
 
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("could not run git commit --amend: %w", err)
+		return fmt.Errorf("could not run git commit: %w", err)
 	}
 
 	return nil
