@@ -1,5 +1,5 @@
 # .github/workflows/release.yml
-name: Crear Release con GoReleaser
+name: Make Release on Tag Push
 
 on:
   push:
