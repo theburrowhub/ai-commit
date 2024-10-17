@@ -2,36 +2,37 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/sergiotejon/ai-commit/internal/version"
 	"log/slog"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 
-	"github.com/sergiotejon/ai-commit/internal/ai"
 	"github.com/sergiotejon/ai-commit/internal/git"
 	"github.com/sergiotejon/ai-commit/internal/logger"
+	"github.com/sergiotejon/ai-commit/internal/version"
 )
 
 // TODO: configure
 const (
-	prompt = "" +
-		"In an impersonal way, write a commit message that explains what the commit is for. " +
-		"Use conventional commits and the imperative mood in the first line. " +
-		"The first line should start with: feat, fix, refactor, docs, style, build, perf, ci, style, test or chore. " +
-		"Set the file name and the changes made in the body. " +
-		"Only one subject line is allowed. " +
-		"An example of commit message is: " +
-		"" +
-		"feat(file or class): Add user authentication\\n" +
-		"\\n" +
-		"- Implement user sign-up and login functionality\\n" +
-		"- Add password hashing for security\\n" +
-		"- Integrate with authentication API\\n" +
-		"- ...\\n" +
-		"" +
-		"Add line breaks to separate subject from body."
+	retriesCommitMessage = 3
+
+	promptTemplate = `
+        Commit changes:
+		{{ .Diff }}
+
+		In an impersonal way, write a commit message that explains what the commit is for. Use conventional commits
+        and the imperative mood in the first line. The first line should start with: feat, fix, refactor, docs, style,
+        build, perf, ci, style, test or chore. Set the file name and the changes made in the body. Only one subject
+		line is allowed. An example of commit message is:
+
+		feat(file or class): Add user authentication
+
+		- Implement user sign-up and login functionality
+		- Add password hashing for security
+		- Integrate with authentication API
+
+		Add line breaks to separate subject from body.
+    `
 )
 
 var (
@@ -51,49 +52,57 @@ var rootCmd = &cobra.Command{
 			os.Exit(0)
 		}
 
+		// Setup the logger
+		logger.SetupLogger(logLevel)
+		// Load configuration
+		// ...
+
+		// Get the differences in the repository
 		diff, err := git.GetDiffs()
 		if err != nil {
 			panic(err)
 		}
 
-		logger.SetupLogger(logLevel)
-
-		slog.Debug("Prompt to infer", "prompt", prompt, "diff", diff)
-
+		// Check if there are changes to commit
 		if diff == "null" {
 			slog.Info("No changes to commit")
 			os.Exit(0)
 		}
 
-		slog.Info("Querying Ollama...")
-		slog.Info("Parameters", "server", ollamaServer, "model", model)
-		result, err := ai.QueryOllama(fmt.Sprintf("Commit changes:\n%s\n%s", diff, prompt), ollamaServer, model)
+		// Return prompt to infer
+		prompt, err := generatePrompt(promptTemplate, diff)
 		if err != nil {
 			panic(err)
 		}
 
-		cleanResult := strings.TrimSpace(strings.Map(func(r rune) rune {
-			if strings.ContainsRune("`", r) {
-				return -1
-			}
-			return r
-		}, result))
+		slog.Debug("Prompt to infer", "prompt", prompt)
 
-		slog.Debug("Commit message", "message", cleanResult)
+		slog.Info("Querying Ollama...")
+		slog.Info("Parameters", "server", ollamaServer, "model", model)
 
-		if !noop {
-			err = git.Commit(cleanResult)
-			if err != nil {
-				panic(err)
-			}
+		// Generate the commit message using Ollama from the prompt with the differences
+		commitMessage, err := generateCommitMessage(prompt, ollamaServer, model, retriesCommitMessage)
+		if err != nil {
+			panic(err)
+		}
 
-			err = git.CommitAmend()
-			if err != nil {
-				panic(err)
-			}
-		} else {
+		slog.Debug("Commit message", "message", commitMessage)
+
+		// If it's working in noop mode, print the commit message and exit
+		if noop {
 			slog.Info("Running in noop mode, no changes made")
-			fmt.Println("\nCommit message:\n\n", cleanResult)
+			printCommitMessage(commitMessage)
+			os.Exit(0)
+		}
+
+		// If it's not in noop mode, commit the changes and amend the commit with the generated message
+		err = git.Commit(commitMessage)
+		if err != nil {
+			panic(err)
+		}
+		err = git.CommitAmend()
+		if err != nil {
+			panic(err)
 		}
 	},
 }
