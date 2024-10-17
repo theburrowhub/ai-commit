@@ -1,3 +1,9 @@
+## 0.2.0 (2024-10-17)
+
+### Feat
+
+- **TODO.md**: Update task list and add completed CI/CD pipeline
+
 ## 0.1.3 (2024-10-17)
 
 ### Refactor
