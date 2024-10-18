@@ -37,6 +37,9 @@ make build
 The `ai-commit` command will use AI to generate a commit message based on the current state of your working directory.
 
 ### Basic Usage
+
+Run the following command in your Git repository:
+
 ```sh
 ai-commit
 ```
@@ -50,6 +53,56 @@ These commands will:
 - Send the diffs to the configured AI model to generate a commit message.
 - Commit the changes with the generated message.
 - Open your default editor to allow you to modify the commit message before finalizing the commit.
+
+#### Docker
+
+Run the next command to run over docker:
+
+- Linux:
+  ```sh
+  docker run --network host -it --rm \
+         -v ${HOME}/.config:/home/ai-commit/.config \
+         -v $(pwd):/source \
+         -e GIT_USER_NAME="$(git config --global user.name)" \
+         -e GIT_USER_EMAIL="$(git config --global user.name)" \
+         ai-commit:latest
+  ```
+
+- MacOS:
+  ```sh
+  docker run -it --rm \
+         -v ${HOME}/.config:/home/ai-commit/.config \
+         -v $(pwd):/source \
+         -e GIT_USER_NAME="$(git config --global user.name)" \
+         -e GIT_USER_EMAIL="$(git config --global user.name)" \
+         ai-commit:latest --server http://host.docker.internal:11434
+  ```
+
+Two volumes are mounted:
+- `${HOME}/.config:/home/ai-commit/.config`: To store the configuration file.
+- `$(pwd):/source`: To access the source code.
+
+Environment variables are set to configure the git user:
+- `-e GIT_USER_NAME="$(git config --global user.name)"`: To set the git user name.
+- `-e GIT_USER_EMAIL="$(git config --global user.email)"`: To set the git user email.
+
+The `-it` flag is used to run the container in interactive mode to allow using `vim` to edit the commit message just 
+generated. And the `--rm` flag is used to remove the container after it stops. `--network host` is used to allow the 
+container to access the host network and connect to the Ollama server.
+
+Any additional arguments passed to the `ai-commit` command will be forwarded to the Docker container. For example, to
+run the command in noop mode `--noop` can be passed as an argument:
+
+To make it easier you can create an alias in your `.bashrc` or `.zshrc` file:
+
+```sh
+alias ai-commit='docker run --network host -it --rm \
+       -v ${HOME}/.config:/home/ai-commit/.config \
+       -v $(pwd):/source \
+       -e GIT_USER_NAME="$(git config --global user.name)" \
+       -e GIT_USER_EMAIL="$(git config --global user.name)" \
+       ai-commit:latest'
+```
 
 ### Command-Line Flags
 - `--noop`: Run without making any changes to the Git repository (dry-run mode).
@@ -126,9 +179,9 @@ go run ./cmd/main.go
 ### Makefile Targets
 The Makefile provides the following targets to manage building, installing, and cleaning up:
 
-- `build`: Compiles the `ai-commit` binary and places it in the `./bin` directory.
+- `bin`: Compiles the `ai-commit` binary and places it in the `./bin` directory.
   ```sh
-  make build
+  make bin
   ```
 - `install`: Builds the binary and copies it to `/usr/local/bin` for system-wide usage.
   ```sh
@@ -137,11 +190,6 @@ The Makefile provides the following targets to manage building, installing, and 
 - `uninstall`: Removes the installed `ai-commit` binary from `/usr/local/bin`.
   ```sh
   make uninstall
-  ```
-- `git-add-extension`: Installs `ai-commit` and creates a symlink to use it as a Git extension (`git ai-commit`).
-  ```sh
-  make git-add-extension
-  ```
 - `release`: Make a release using goreleaser.
   ```sh
   make release
