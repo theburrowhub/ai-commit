@@ -1,3 +1,9 @@
+## 0.5.2 (2024-10-18)
+
+### Refactor
+
+- **.goreleaser.yaml**: Update Docker image repository URLs, modify release configurations
+
 ## 0.5.1 (2024-10-18)
 
 ### Fix
