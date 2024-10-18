@@ -23,6 +23,6 @@
 ## CI/CD
 
 - [X] Add CI/CD pipeline to automate new releases
-- [ ] Docker image for easy installation
+- [X] Docker image for easy installation
 - [X] `make install` would install the binary and git extension with the current version
 - [X] Commitizen support
