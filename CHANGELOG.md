@@ -1,3 +1,13 @@
+## 0.5.0 (2024-10-18)
+
+### Feat
+
+- **TODO.md**: Update TODO list with completed and removed items
+
+### Refactor
+
+- **internal/cmd/root.go**: Modify error handling when retrieving Git repository diffs
+
 ## 0.4.0 (2024-10-17)
 
 ### Feat
