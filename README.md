@@ -198,9 +198,9 @@ The Makefile provides the following targets to manage building, installing, and 
   ```sh
   make test-release
   ```
-- `new-version`: Bump the version of the project.
+- `bump`: Bump the version of the project.
   ```sh
-  make new-version
+  make bump
   ```
 - `clean`: Removes the `./bin` directory to clean up build artifacts.
   ```sh
