@@ -1,3 +1,9 @@
+## 0.5.1 (2024-10-18)
+
+### Fix
+
+- **.goreleaser.yaml**: Update Docker image URLs and remove GitHub Container ...
+
 ## 0.5.0 (2024-10-18)
 
 ### Feat
