@@ -37,7 +37,8 @@ var rootCmd = &cobra.Command{
 		// Get the differences in the repository
 		diff, err := git.GetDiffs()
 		if err != nil {
-			panic(err)
+			slog.Error("Could not get the differences", "error", err)
+			os.Exit(1)
 		}
 
 		// Check if there are changes to commit
