@@ -27,7 +27,7 @@ uninstall:  ## Uninstall ai-commit and git extension
 	rm /usr/local/bin/ai-commit
 	rm /usr/local/bin/git-ai-commit
 
-new-version: ## Bump version using commitizen
+bump: ## Bump version using commitizen
 	cz bump
 
 release: ## Release new version
