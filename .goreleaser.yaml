@@ -35,3 +35,11 @@ release:
     name: ai-commit
   draft: false
   prerelease: false
+
+dockers:
+  - image_templates:
+      - "ghcr.io/sergiotejon/ai-commit:{{ .Version }}"
+      - "ghcr.io/sergiotejon/ai-commit:latest"
+    dockerfile: build/Dockerfile
+    build_flag_templates:
+      - "--build-arg=APP_VERSION={{.Version}}"
