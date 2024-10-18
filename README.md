@@ -2,6 +2,8 @@
 
 ai-commit is a command-line tool designed to help developers automatically generate meaningful commit messages for their Git repositories using AI. It uses the changes in the working directory to infer a commit message, promoting the use of conventional commits while keeping the messages precise and understandable.
 
+![ai-commit](assets/ai-commit.gif)
+
 ## Features
 - Generates commit messages using AI based on Git diffs.
 - Adheres to conventional commit standards (e.g., feat, fix, refactor).
