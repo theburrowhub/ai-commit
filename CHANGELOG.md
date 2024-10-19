@@ -1,3 +1,14 @@
+## 0.6.0 (2024-10-19)
+
+### Feat
+
+- **internal/cmd/root.go**: Implement noop mode for silent exit
+
+### Refactor
+
+- **internal/cmd/functions.go**: Modify commit message printing function for quiet mode and log level settings
+- **internal/logger/logger.go**: Separate error logging from default logging
+
 ## 0.5.7 (2024-10-18)
 
 ## 0.5.2 (2024-10-18)
