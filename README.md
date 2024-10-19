@@ -221,7 +221,7 @@ make new-version
 If you want to manually bump the version:
 
 ```sh
-cz bump --increment [MAJOR|MINOR|PATCH]
+cz bump --increment (MAJOR|MINOR|PATCH)
 ```
 
 Then push the tag to the repository:
