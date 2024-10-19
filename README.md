@@ -32,7 +32,7 @@ Clone this repository and build the `ai-commit` binary:
 ```sh
 git clone https://github.com/sergiotejon/ai-commit.git
 cd ai-commit
-make build
+make install
 ```
 
 ## Usage
