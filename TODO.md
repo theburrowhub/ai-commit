@@ -6,6 +6,7 @@
   - [X] AI model server URL
   - [X] Logging level
   - [X] Default AI model
+- [X] Silent mode (no logs). Only errors to stderr. Useful along with `--noop` flag to work with automation.
 
 ## Improvements
 
@@ -14,6 +15,7 @@
 - [X] Check commit messages if they adhere to conventional commit standards
   - [X] Retry if not adhering to standards (e.g., feat, fix, refactor)
   - [X] ... at least 3 times
+- [X] Logs file (stderr and stdout). In case of error stderr.
 - [ ] Tests
 
 ## Bug Fixes

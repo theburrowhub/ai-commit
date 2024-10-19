@@ -9,6 +9,8 @@ import (
 	"sync"
 )
 
+var ErrorLogger *slog.Logger
+
 // SetupLogger sets up the logger for the application
 func SetupLogger(logLevel string) {
 	var level = setLevel(logLevel)
@@ -27,17 +29,23 @@ func SetupLogger(logLevel string) {
 		attributes.Store("go_version", buildInfo.GoVersion)
 	}
 
-	// Slog handler
-	handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+	// Handlers for stdout and stderr
+	stdoutHandler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		Level:     level,
 		AddSource: addSource,
 	})
-
-	// Create a new logger
-	logger := slog.New(handler)
-
+	// Create a new logger for stdout
+	logger := slog.New(stdoutHandler)
 	// Set the logger as the default logger
 	slog.SetDefault(logger)
+
+	// Custom attributes for the error logger
+	stderrHandler := slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{
+		Level:     slog.LevelError,
+		AddSource: addSource,
+	})
+	// Create a new logger for errors to stderr
+	ErrorLogger = slog.New(stderrHandler)
 }
 
 func setLevel(logLevel string) slog.Level {

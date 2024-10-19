@@ -25,7 +25,11 @@ func checkCommitMessage(message string) error {
 
 // printCommitMessage prints the commit message.
 func printCommitMessage(message string) {
-	fmt.Printf("\nCommit message:\n\n%s\n\n", message)
+	if !quiet && logLevel != "error" {
+		fmt.Printf("\n%s\n\n", message)
+	} else {
+		fmt.Printf("%s\n", message)
+	}
 }
 
 // generatePrompt generates a prompt template using the diff.

@@ -111,6 +111,8 @@ alias ai-commit='docker run --network host -it --rm \
 - `--logLevel`: Set the logging level (default is "info"). Available levels are "debug", "info", "warn", and "error".
 - `--server`: Set the Ollama server URL (default is `http://localhost:11434`).
 - `--model`: Specify the AI model to use for generating the commit message (default is "mistral").
+- `--retries`, `-r`: Number of retries for invalid commit messages (default is 3).
+- `--quiet`: Run in silent mode (no logs). Only errors are printed to stderr.
 
 ### Example
 ```sh
