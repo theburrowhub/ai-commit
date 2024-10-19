@@ -20,6 +20,7 @@ var (
 	model        string
 	retries      int
 	showVersion  bool
+	quiet        bool
 )
 
 var rootCmd = &cobra.Command{
@@ -32,19 +33,22 @@ var rootCmd = &cobra.Command{
 		}
 
 		// Setup the logger
+		if quiet {
+			logLevel = "error"
+		}
 		logger.SetupLogger(logLevel)
 
 		// Get the differences in the repository
 		diff, err := git.GetDiffs()
 		if err != nil {
-			slog.Error("Could not get the differences", "error", err)
+			logger.ErrorLogger.Error("Could not get the differences", "error", err)
 			os.Exit(1)
 		}
 
 		// Check if there are changes to commit
 		if diff == "null" {
-			slog.Info("No changes to commit")
-			os.Exit(0)
+			logger.ErrorLogger.Error("No changes to commit")
+			os.Exit(1)
 		}
 
 		// Return prompt to infer
@@ -68,7 +72,7 @@ var rootCmd = &cobra.Command{
 
 		// If it's working in noop mode, print the commit message and exit
 		if noop {
-			slog.Info("Running in noop mode, no changes made")
+			slog.Warn("Running in noop mode, no changes made")
 			printCommitMessage(commitMessage)
 			os.Exit(0)
 		}
@@ -97,6 +101,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&model, "model", configure.Cfg.Model, "Set the model to use for AI generation")
 	rootCmd.PersistentFlags().IntVarP(&retries, "retries", "r", configure.Cfg.DefaultRetriesCommitMessage, "Set the number of retries for invalid commit messages")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show the version of the application")
+	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Run in silent mode")
 }
 
 func Execute() {
