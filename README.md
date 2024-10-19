@@ -66,7 +66,7 @@ Run the next command to run over docker:
          -v ${HOME}/.config:/home/ai-commit/.config \
          -v $(pwd):/source \
          -e GIT_USER_NAME="$(git config --global user.name)" \
-         -e GIT_USER_EMAIL="$(git config --global user.name)" \
+         -e GIT_USER_EMAIL="$(git config --global user.email)" \
          ai-commit:latest
   ```
 
@@ -76,7 +76,7 @@ Run the next command to run over docker:
          -v ${HOME}/.config:/home/ai-commit/.config \
          -v $(pwd):/source \
          -e GIT_USER_NAME="$(git config --global user.name)" \
-         -e GIT_USER_EMAIL="$(git config --global user.name)" \
+         -e GIT_USER_EMAIL="$(git config --global user.email)" \
          ai-commit:latest --server http://host.docker.internal:11434
   ```
 
