@@ -30,6 +30,15 @@ uninstall:  ## Uninstall ai-commit and git extension
 bump: ## Bump version using commitizen
 	cz bump
 
+bump-alpha: ## Bump version using commitizen (alpha)
+	cz bump -pr alpha
+
+bump-beta: ## Bump version using commitizen (beta)
+	cz bump -pr beta
+
+bump-rc: ## Bump version using commitizen (release candidate)
+	cz bump -pr rc
+
 release: ## Release new version
 	goreleaser release
 
