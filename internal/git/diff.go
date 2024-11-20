@@ -68,9 +68,24 @@ func GetDiffs() (string, error) {
 				return "", fmt.Errorf("could not close the file %s: %w", file, err)
 			}
 
-			idxContent, err := os.ReadFile(filepath.Join(gitDir, file))
+			f, err := os.Open(filepath.Join(gitDir, file))
 			if err != nil {
-				return "", fmt.Errorf("could not read the file %s: %w", file, err)
+				return "", fmt.Errorf("could not open the file %s: %w", file, err)
+			}
+
+			fileInfo, err := f.Stat()
+			if err != nil {
+				return "", fmt.Errorf("could not get the file info: %w", err)
+			}
+
+			var idxContent []byte
+			if fileInfo.IsDir() {
+				idxContent = []byte(fmt.Sprintf("New commits for submodule %s", file))
+			} else {
+				idxContent, err = os.ReadFile(filepath.Join(gitDir, file))
+				if err != nil {
+					return "", fmt.Errorf("could not read the file %s: %w", file, err)
+				}
 			}
 
 			// Retrieve the file from the last commit
@@ -93,11 +108,23 @@ func GetDiffs() (string, error) {
 					})
 				}
 			} else {
-				fileDiff = append(fileDiff, FileDiff{
-					File: file,
-					Type: "NewFile",
-					Text: "",
-				})
+				fInfo, err := f.Stat()
+				if err != nil {
+					return "", fmt.Errorf("could not get the file info: %w", err)
+				}
+				if fInfo.IsDir() {
+					fileDiff = append(fileDiff, FileDiff{
+						File: file,
+						Type: "Submodule",
+						Text: fmt.Sprintf("Updated commits for submodule %s", file),
+					})
+				} else {
+					fileDiff = append(fileDiff, FileDiff{
+						File: file,
+						Type: "NewFile",
+						Text: "",
+					})
+				}
 			}
 		} else if stat.Staging == git.Deleted {
 			fileDiff = append(fileDiff, FileDiff{
