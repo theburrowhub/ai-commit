@@ -5,30 +5,43 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 )
 
 type OllamaRequest struct {
-	Model  string `json:"model"`
-	Prompt string `json:"prompt"`
-	Stream bool   `json:"stream"`
+	Model   string        `json:"model"`
+	System  string        `json:"system"`
+	Prompt  string        `json:"prompt"`
+	Options OllamaOptions `json:"options"`
+	Stream  bool          `json:"stream"`
+}
+
+type OllamaOptions struct {
+	NumCtx      int     `json:"num_ctx"`
+	Temperature float32 `json:"temperature"`
+	NumKeep     int     `json:"num_keep"`
 }
 
 type OllamaResponse struct {
 	Response string `json:"response"`
 }
 
-func QueryOllama(prompt, host, model string) (string, error) {
+func QueryOllama(prompt, system, host, model string, options OllamaOptions) (string, error) {
 	url := fmt.Sprintf("%s/api/generate", host)
 
 	requestBody, err := json.Marshal(OllamaRequest{
-		Model:  model,
-		Prompt: prompt,
-		Stream: false,
+		Model:   model,
+		System:  system,
+		Prompt:  prompt,
+		Options: options,
+		Stream:  false,
 	})
 	if err != nil {
 		return "", fmt.Errorf("could not marshal request body: %w", err)
 	}
+
+	slog.Debug("Request", "requestBody", string(requestBody))
 
 	resp, err := http.Post(url, "application/json", bytes.NewBuffer(requestBody))
 	if err != nil {
