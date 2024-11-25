@@ -1,11 +1,9 @@
 package cmd
 
 import (
-	"bytes"
 	"fmt"
 	"log/slog"
 	"strings"
-	"text/template"
 
 	"github.com/leodido/go-conventionalcommits"
 	"github.com/leodido/go-conventionalcommits/parser"
@@ -32,30 +30,14 @@ func printCommitMessage(message string) {
 	}
 }
 
-// generatePrompt generates a prompt template using the diff.
-func generatePrompt(promptTemplate, diff string) (string, error) {
-	var tmpl, err = template.New("prompt").Parse(promptTemplate)
-	if err != nil {
-		return "", err
-	}
-
-	var tpl bytes.Buffer
-	err = tmpl.Execute(&tpl, struct{ Diff string }{Diff: diff})
-	if err != nil {
-		return "", err
-	}
-
-	return tpl.String(), nil
-}
-
 // generateCommitMessage generates a commit message using Ollama.
-func generateCommitMessage(prompt, ollamaServer, model string, retries int) (string, error) {
+func generateCommitMessage(prompt, system, ollamaServer, model string, retries int, options ai.OllamaOptions) (string, error) {
 	var result string
 	var cleanResult string
 	var err error
 
 	for i := 0; i < retries; i++ {
-		result, err = ai.QueryOllama(prompt, ollamaServer, model)
+		result, err = ai.QueryOllama(prompt, system, ollamaServer, model, options)
 		if err != nil {
 			// Retry if there is an error
 			slog.Warn("Failed to query Ollama", "retry", i, "error", err)

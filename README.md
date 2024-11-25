@@ -127,26 +127,30 @@ file contains the default values for the `ai-commit` configuration. Below is an 
 the default values:
 
 ```yaml
+noop: false
 logLevel: info
 ollamaServer: http://localhost:11434
 model: mistral
-defaultPromptTemplate: |-
-    Commit changes:
-    {{ .Diff }}
+systemPrompt: |-
+  In an impersonal way, write a commit message that explains what the commit
+  is for. Use conventional commits and the imperative mood in the first line.
+  The first line should start with: feat, fix, refactor, docs, style, build,
+  perf, ci, style, test or chore. Set the file name and the changes made in
+  the body. Only one subject line is allowed.
 
-    In an impersonal way, write a commit message that explains what the commit is for. Use conventional commits
-    and the imperative mood in the first line. The first line should start with: feat, fix, refactor, docs, style,
-    build, perf, ci, style, test or chore. Set the file name and the changes made in the body. Only one subject
-    line is allowed. An example of commit message is:
+  An example of commit message is:
 
-    feat(file or class): Add user authentication
+  feat(file or class): Add user authentication
 
-    - Implement user sign-up and login functionality
-    - Add password hashing for security
-    - Integrate with authentication API
+  - Implement user sign-up and login functionality
+  - Add password hashing for security
+  - Integrate with authentication API
 
-    Add line breaks to separate subject from body.
-defaultRetriesCommitMessage: 3
+  Add line breaks to separate subject from body.
+retriesCommitMessage: 3
+numCtx: 4096
+numKeep: 512
+temperature: 0
 ```
 
 This file defines the following configuration parameters:
@@ -154,8 +158,11 @@ This file defines the following configuration parameters:
 * `logLevel`: Logging level (default is "info").
 * `ollamaServer`: URL of the Ollama server (default is http://localhost:11434).
 * `model`: AI model to use for generating commit messages (default is "mistral").
-* `defaultPromptTemplate`: Default template for the commit message.
-* `defaultRetriesCommitMessage`: Number of retries for invalid commit messages (default is 3).
+* `systemPrompt`: Default template for the commit message.
+* `retriesCommitMessage`: Number of retries for invalid commit messages (default is 3).
+* `numCtx`: Number of context tokens (default is 4096).
+* `numKeep`: Number of tokens to keep in case of truncation (default is 512).
+* `temperature`: Temperature for sampling (default is 0 - deterministic).
  
 ## Commit Message Generation
 
@@ -206,6 +213,18 @@ The Makefile provides the following targets to manage building, installing, and 
   ```sh
   make bump
   ```
+- `bump-alpha`: Bump version using commitizen (alpha)
+  ```sh
+  make bump-alpha
+  ```
+- `bump-beta`: Bump version using commitizen (beta)
+  ```sh
+  make bump-beta
+  ```
+- `bump-rc`: Bump version using commitizen (release candidate)
+  ```sh
+  make bump-rc
+  ```
 - `clean`: Removes the `./bin` directory to clean up build artifacts.
   ```sh
   make clean
@@ -214,11 +233,6 @@ The Makefile provides the following targets to manage building, installing, and 
 ## Automatic Versioning
 
 Just push a new tag with the version number and the CI/CD pipeline will take care of the rest.
-
-Automatically bump the version with:
-```sh
-make new-version
-```
 
 If you want to manually bump the version:
 
