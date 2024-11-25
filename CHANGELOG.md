@@ -1,3 +1,10 @@
+## 0.6.1 (2024-11-25)
+
+### Fix
+
+- fix system prompt (#18)
+- **internal/git/diff.go**: update commit message for submodules (#14)
+
 ## 0.6.0 (2024-10-19)
 
 ### Feat
