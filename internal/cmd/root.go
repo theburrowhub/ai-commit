@@ -22,6 +22,7 @@ var (
 	retries      int
 	showVersion  bool
 	quiet        bool
+	commitType   string
 )
 
 var rootCmd = &cobra.Command{
@@ -104,6 +105,7 @@ func init() {
 	rootCmd.PersistentFlags().IntVarP(&retries, "retries", "r", *configure.Cfg.RetriesCommitMessage, "Set the number of retries for invalid commit messages")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show the version of the application")
 	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Run in silent mode")
+	rootCmd.PersistentFlags().StringVarP(&commitType, "commitType", "t", "none", "Set the type of the commit message")
 }
 
 func Execute() {
