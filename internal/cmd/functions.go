@@ -66,3 +66,19 @@ func generateCommitMessage(prompt, system, ollamaServer, model string, retries i
 
 	return cleanResult, err
 }
+
+// modifyCommitType modifies the commit type.
+func modifyCommitType(commitMessage string, commitType string) string {
+	parts := strings.SplitN(commitMessage, ":", 2)
+
+	if len(parts) > 1 {
+		scopeSplit := strings.SplitN(parts[0], "(", 2)
+		if len(scopeSplit) > 1 {
+			scope := strings.TrimRight(scopeSplit[1], ")")
+			return fmt.Sprintf("%s(%s):%s", commitType, scope, parts[1])
+		}
+		return fmt.Sprintf("%s:%s", commitType, parts[1])
+	}
+
+	return commitMessage
+}
