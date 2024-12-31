@@ -71,6 +71,12 @@ var rootCmd = &cobra.Command{
 			panic(err)
 		}
 
+		// If the commit type is not the default one, modify the commit type
+		if commitType != "none" {
+			commitMessage = modifyCommitType(commitMessage, commitType)
+			slog.Debug("Modified commit message with new commit type")
+		}
+
 		slog.Debug("Commit message", "message", commitMessage)
 
 		// If it's working in noop mode, print the commit message and exit
