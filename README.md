@@ -113,7 +113,7 @@ alias ai-commit='docker run --network host -it --rm \
 - `--model`: Specify the AI model to use for generating the commit message (default is "mistral").
 - `--retries`, `-r`: Number of retries for invalid commit messages (default is 3).
 - `--quiet`: Run in silent mode (no logs). Only errors are printed to stderr.
-- `-t`: Select a commit type by writting the type next to the flag (feat, fix, refactor, docs, style...)
+- `--commitType`, `-t`: Select a commit type by writting the type next to the flag (feat, fix, refactor, docs, style...)
 
 ### Example
 ```sh
