@@ -1,3 +1,9 @@
+## 0.7.0 (2025-01-11)
+
+### Feat
+
+- force commit type with flag (#24)
+
 ## 0.6.1 (2024-11-25)
 
 ### Fix
