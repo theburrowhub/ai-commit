@@ -1,6 +1,6 @@
 FROM alpine:3.20.3
 
-LABEL org.opencontainers.image.source=https://github.com/sergiotejon/ai-commit
+LABEL org.opencontainers.image.source=https://github.com/theburrowhub/ai-commit
 LABEL org.opencontainers.image.description="Commit meesages using AI"
 LABEL org.opencontainers.image.licenses=MIT
 

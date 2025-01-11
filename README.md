@@ -23,14 +23,14 @@ ai-commit is a command-line tool designed to help developers automatically gener
 Run the following command to install the `ai-commit` binary and git extension:
 
 ```sh
-curl -s https://raw.githubusercontent.com/sergiotejon/ai-commit/main/scripts/get-ai-commit.sh | sudo bash
+curl -s https://raw.githubusercontent.com/theburrowhub/ai-commit/main/scripts/get-ai-commit.sh | sudo bash
 ```
 
 ### Clone and Build
 Clone this repository and build the `ai-commit` binary:
 
 ```sh
-git clone https://github.com/sergiotejon/ai-commit.git
+git clone https://github.com/theburrowhub/ai-commit.git
 cd ai-commit
 make install
 ```

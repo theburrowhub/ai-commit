@@ -1,6 +1,6 @@
 package main
 
-import "github.com/sergiotejon/ai-commit/internal/cmd"
+import "github.com/theburrowhub/ai-commit/internal/cmd"
 
 func main() {
 	cmd.Execute()

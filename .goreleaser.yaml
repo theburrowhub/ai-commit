@@ -9,7 +9,7 @@ builds:
     binary: ai-commit
     main: ./cmd/
     ldflags:
-      - "-X github.com/sergiotejon/ai-commit/internal/version.version={{.Version}}"
+      - "-X github.com/theburrowhub/ai-commit/internal/version.version={{.Version}}"
     env:
       - CGO_ENABLED=0
     goos:
@@ -31,15 +31,15 @@ changelog:
 
 release:
   github:
-    owner: sergiotejon
+    owner: theburrowhub
     name: ai-commit
   draft: false
   prerelease: auto
 
 dockers:
   - image_templates:
-      - "ghcr.io/sergiotejon/ai-commit:{{ .Version }}"
-      - "{{ if not .Prerelease }}ghcr.io/sergiotejon/ai-commit:latest{{ end }}"
+      - "ghcr.io/theburrowhub/ai-commit:{{ .Version }}"
+      - "{{ if not .Prerelease }}ghcr.io/theburrowhub/ai-commit:latest{{ end }}"
     dockerfile: build/Dockerfile
     build_flag_templates:
       - "--build-arg=APP_VERSION={{.Version}}"

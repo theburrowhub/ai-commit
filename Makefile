@@ -12,7 +12,7 @@ bin: ./bin/ai-commit ## Build go application
 
 ./bin/ai-commit:
 	go build \
-		-ldflags "-X github.com/sergiotejon/ai-commit/internal/version.version=${CURRENT_VERSION}" \
+		-ldflags "-X github.com/theburrowhub/ai-commit/internal/version.version=${CURRENT_VERSION}" \
 		-o ./bin/ai-commit ./cmd/main.go
 
 install: bin /usr/local/bin/ai-commit /usr/local/bin/git-ai-commit ## Install ai-commit and git extension

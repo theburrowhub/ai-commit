@@ -7,11 +7,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/sergiotejon/ai-commit/internal/ai"
-	"github.com/sergiotejon/ai-commit/internal/configure"
-	"github.com/sergiotejon/ai-commit/internal/git"
-	"github.com/sergiotejon/ai-commit/internal/logger"
-	"github.com/sergiotejon/ai-commit/internal/version"
+	"github.com/theburrowhub/ai-commit/internal/ai"
+	"github.com/theburrowhub/ai-commit/internal/configure"
+	"github.com/theburrowhub/ai-commit/internal/git"
+	"github.com/theburrowhub/ai-commit/internal/logger"
+	"github.com/theburrowhub/ai-commit/internal/version"
 )
 
 var (

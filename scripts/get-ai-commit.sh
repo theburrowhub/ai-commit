@@ -3,9 +3,9 @@
 set -e
 
 # Usage:
-# curl -s https://raw.githubusercontent.com/sergiotejon/ai-commit/main/scripts/get-ai-commit.sh | sudo bash
+# curl -s https://raw.githubusercontent.com/theburrowhub/ai-commit/main/scripts/get-ai-commit.sh | sudo bash
 
-REPO="sergiotejon/ai-commit"
+REPO="theburrowhub/ai-commit"
 INSTALL_DIR="/usr/local/bin"
 BINARY_NAME="ai-commit"
 SYMLINK_NAME="git-ai-commit"

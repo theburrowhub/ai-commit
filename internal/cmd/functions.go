@@ -8,7 +8,7 @@ import (
 	"github.com/leodido/go-conventionalcommits"
 	"github.com/leodido/go-conventionalcommits/parser"
 
-	"github.com/sergiotejon/ai-commit/internal/ai"
+	"github.com/theburrowhub/ai-commit/internal/ai"
 )
 
 // checkCommitMessage checks the commit message for conventional commits.
