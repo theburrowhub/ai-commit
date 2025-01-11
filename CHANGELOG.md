@@ -1,3 +1,9 @@
+## 0.7.1 (2025-01-11)
+
+### Refactor
+
+- **go.mod, scripts/get-ai-commit.sh**: Update dependencies and script source code to reflect repository ownership change from @sergiotejon to @theburrowhub.
+
 ## 0.7.0 (2025-01-11)
 
 ### Feat
