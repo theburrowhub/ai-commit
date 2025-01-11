@@ -22,6 +22,7 @@ var (
 	retries      int
 	showVersion  bool
 	quiet        bool
+	commitType   string
 )
 
 var rootCmd = &cobra.Command{
@@ -70,6 +71,12 @@ var rootCmd = &cobra.Command{
 			panic(err)
 		}
 
+		// If the commit type is not the default one, modify the commit type
+		if commitType != "none" {
+			commitMessage = modifyCommitType(commitMessage, commitType)
+			slog.Debug("Modified commit message with new commit type")
+		}
+
 		slog.Debug("Commit message", "message", commitMessage)
 
 		// If it's working in noop mode, print the commit message and exit
@@ -104,6 +111,7 @@ func init() {
 	rootCmd.PersistentFlags().IntVarP(&retries, "retries", "r", *configure.Cfg.RetriesCommitMessage, "Set the number of retries for invalid commit messages")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "Show the version of the application")
 	rootCmd.PersistentFlags().BoolVar(&quiet, "quiet", false, "Run in silent mode")
+	rootCmd.PersistentFlags().StringVarP(&commitType, "commitType", "t", "none", "Set the type of the commit message")
 }
 
 func Execute() {
